@@ -3,46 +3,43 @@
 <head>
   <meta charset="utf-8" />
   <title>Test Map Event</title>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
-
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <div id="map"></div>
-
-  <!-- time UI -->
-  <div id="timePanel">
-    <div class="timeBox">
-      <button id="yearUp">▲</button>
-      <div id="year">2026</div>
-      <button id="yearDown">▼</button>
-    </div>
-
-    <div class="timeBox">
-      <button id="monthUp">▲</button>
-      <div id="month">04</div>
-      <button id="monthDown">▼</button>
-    </div>
-
-    <div class="timeBox">
-      <button id="dayUp">▲</button>
-      <div id="day">20</div>
-      <button id="dayDown">▼</button>
-    </div>
-
-    <div class="navRow">
-      <button id="leftDay">←</button>
-      <button id="rightDay">→</button>
+  <div id="map">
+    <!-- time UI inside map so position:absolute overlays it -->
+    <div id="timePanel">
+      <div class="navRow">
+        <span class="spacer"></span>
+        <button id="leftDay">◀</button>
+        <span class="spacer"></span>
+      </div>
+      <div class="timeBox">
+        <button id="yearUp">▲</button>
+        <div id="year">2026</div>
+        <button id="yearDown">▼</button>
+      </div>
+      <div class="timeBox">
+        <button id="monthUp">▲</button>
+        <div id="month">04</div>
+        <button id="monthDown">▼</button>
+      </div>
+      <div class="timeBox">
+        <button id="dayUp">▲</button>
+        <div id="day">20</div>
+        <button id="dayDown">▼</button>
+      </div>
+      <div class="navRow">
+        <span class="spacer"></span>
+        <button id="rightDay">▶</button>
+        <span class="spacer"></span>
+      </div>
     </div>
   </div>
-
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-
   <script src="script.js"></script>
 </body>
 </html>
