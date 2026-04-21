@@ -65,7 +65,7 @@ function loadEvents(dateStr) {
         }
       }).addTo(map);
 
-      map.fitBounds(currentLayer.getBounds());
+      //map.fitBounds(currentLayer.getBounds());
     });
 }
 
