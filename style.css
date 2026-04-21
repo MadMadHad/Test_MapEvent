@@ -8,15 +8,7 @@ html, body {
   height: 100%;
 }
 
-/* search */
-#search {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 1000;
-}
-
-/* date container */
+/* calendar container */
 #datePickerContainer {
   position: absolute;
   bottom: 20px;
@@ -42,7 +34,7 @@ html, body {
   align-items: center;
 }
 
-/* value boxes */
+/* numbers */
 .valueBox {
   background: #111;
   color: #ccc;
@@ -85,7 +77,7 @@ html, body {
   user-select: none;
 }
 
-/* cursor */
+/* map hover */
 .leaflet-interactive {
   cursor: pointer;
 }
