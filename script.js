@@ -1,7 +1,7 @@
 // map init
 const map = L.map('map', {
   center: [15.76, 0.63],
-  zoom: 1
+  zoom: 2
 });
 // base map
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
