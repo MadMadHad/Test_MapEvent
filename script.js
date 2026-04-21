@@ -9,19 +9,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png
   attribution: '&copy; OpenStreetMap'
 }).addTo(map);
 
-// search (fixed attach)
-const geocoder = L.Control.geocoder();
-geocoder.addTo(map);
-
-setTimeout(() => {
-  document.getElementById("search").appendChild(geocoder.getContainer());
-}, 0);
-
-// layer
 let layer;
 
-// styles
-function baseStyle() {
+// style
+function style() {
   return {
     color: '#cc0000',
     weight: 2,
@@ -30,14 +21,7 @@ function baseStyle() {
   };
 }
 
-function hoverStyle(e) {
-  e.target.setStyle({
-    color: '#ff0000',
-    fillOpacity: 0.6
-  });
-}
-
-// load events (NO zoom change)
+// load events (NO auto zoom)
 function load(dateStr) {
   if (layer) map.removeLayer(layer);
 
@@ -45,20 +29,23 @@ function load(dateStr) {
     .then(r => r.json())
     .then(data => {
       layer = L.geoJSON(data, {
-        style: baseStyle,
+        style,
         onEachFeature: (f, l) => {
           l.on({
-            mouseover: hoverStyle,
-            mouseout: () => layer.resetStyle(l),
+            mouseover: e => {
+              e.target.setStyle({
+                color: '#ff0000',
+                fillOpacity: 0.6
+              });
+            },
+            mouseout: e => layer.resetStyle(e.target),
             click: e => {
-              const wiki = "https://en.wikipedia.org/wiki/Special:Random";
-
               L.popup()
                 .setLatLng(e.latlng)
                 .setContent(`
                   <b>${f.properties.title}</b><br/>
                   ${f.properties.description}<br/><br/>
-                  <a href="${wiki}" target="_blank">Wikipedia</a>
+                  <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Wikipedia</a>
                 `)
                 .openOn(map);
             }
