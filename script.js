@@ -1,6 +1,6 @@
 // map init
 const map = L.map('map', {
-  center: [25, 0],
+  center: [25, 120],
   zoom: 2
 });
 // base map
