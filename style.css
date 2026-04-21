@@ -28,7 +28,7 @@ html, body {
   font-family: sans-serif;
 }
 
-/* boxes */
+/* layout */
 .boxGroup {
   display: flex;
   gap: 4px;
@@ -42,6 +42,7 @@ html, body {
   align-items: center;
 }
 
+/* value boxes */
 .valueBox {
   background: #111;
   color: #ccc;
@@ -84,6 +85,7 @@ html, body {
   user-select: none;
 }
 
+/* cursor */
 .leaflet-interactive {
   cursor: pointer;
 }
