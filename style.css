@@ -1,0 +1,21 @@
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+#calendar {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+/* pointer on hover */
+.leaflet-interactive {
+  cursor: pointer;
+}
