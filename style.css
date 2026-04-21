@@ -8,14 +8,35 @@ html, body {
   height: 100%;
 }
 
-#calendar {
+/* search + interactions */
+.leaflet-interactive {
+  cursor: pointer;
+}
+
+/* time panel */
+#timePanel {
   position: absolute;
   bottom: 20px;
   left: 20px;
+  display: flex;
+  gap: 8px;
   z-index: 1000;
 }
 
-/* pointer on hover */
-.leaflet-interactive {
-  cursor: pointer;
+.timeBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 4px;
+  width: 60px;
+}
+
+.navRow {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+  border: 1px solid #ccc;
 }
