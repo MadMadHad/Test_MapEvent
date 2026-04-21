@@ -5,40 +5,43 @@
   <title>Test Map Event</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
 
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  
-  <div id="search"></div>
+
   <div id="map"></div>
 
-  <!-- time UI -->
-  <div id="timePanel">
-    <div class="timeBox">
-      <button id="yearUp">▲</button>
-      <div id="year">2026</div>
-      <button id="yearDown">▼</button>
+  <!-- SEARCH -->
+  <div id="search"></div>
+
+  <!-- DATE UI -->
+  <div id="datePickerContainer">
+
+    <div id="dayDecrement" class="sideButton">−</div>
+
+    <div class="boxGroup">
+      <div class="col">
+        <div id="yearUp" class="arrowTop"></div>
+        <div id="yearDisplay" class="valueBox">2026</div>
+        <div id="yearDown" class="arrowBottom"></div>
+      </div>
+
+      <div class="col">
+        <div id="monthUp" class="arrowTop"></div>
+        <div id="monthDisplay" class="valueBox">04</div>
+        <div id="monthDown" class="arrowBottom"></div>
+      </div>
+
+      <div class="col">
+        <div id="dayUp" class="arrowTop"></div>
+        <div id="dayDisplay" class="valueBox">20</div>
+        <div id="dayDown" class="arrowBottom"></div>
+      </div>
     </div>
 
-    <div class="timeBox">
-      <button id="monthUp">▲</button>
-      <div id="month">04</div>
-      <button id="monthDown">▼</button>
-    </div>
-
-    <div class="timeBox">
-      <button id="dayUp">▲</button>
-      <div id="day">20</div>
-      <button id="dayDown">▼</button>
-    </div>
-
-    <div class="navRow">
-      <button id="leftDay">←</button>
-      <button id="rightDay">→</button>
-    </div>
+    <div id="dayIncrement" class="sideButton">+</div>
   </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
