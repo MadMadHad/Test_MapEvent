@@ -1,18 +1,22 @@
-// map
+// map init
 const map = L.map('map', {
   center: [25, -90],
   zoom: 4
 });
 
-// base layer
+// base map
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; OpenStreetMap'
 }).addTo(map);
 
-let layer;
+// search bar
+L.Control.geocoder().addTo(map);
+
+// event layer
+let currentLayer;
 
 // style
-function style() {
+function defaultStyle() {
   return {
     color: '#cc0000',
     weight: 2,
@@ -21,72 +25,85 @@ function style() {
   };
 }
 
-// load events (NO auto zoom)
-function load(dateStr) {
-  if (layer) map.removeLayer(layer);
+function hoverStyle() {
+  return {
+    color: '#ff0000',
+    weight: 3,
+    fillColor: '#ff4d4d',
+    fillOpacity: 0.6
+  };
+}
+
+// load events
+function loadEvents(dateStr) {
+  if (currentLayer) {
+    map.removeLayer(currentLayer);
+  }
 
   fetch(`data/${dateStr}.json`)
     .then(r => r.json())
     .then(data => {
-      layer = L.geoJSON(data, {
-        style,
-        onEachFeature: (f, l) => {
-          l.on({
-            mouseover: e => {
-              e.target.setStyle({
-                color: '#ff0000',
-                fillOpacity: 0.6
-              });
-            },
-            mouseout: e => layer.resetStyle(e.target),
+      currentLayer = L.geoJSON(data, {
+        style: defaultStyle,
+        onEachFeature: (feature, layer) => {
+          layer.on({
+            mouseover: e => e.target.setStyle(hoverStyle()),
+            mouseout: e => currentLayer.resetStyle(e.target),
             click: e => {
+              const wiki = "https://en.wikipedia.org/wiki/Special:Random";
+
               L.popup()
                 .setLatLng(e.latlng)
                 .setContent(`
-                  <b>${f.properties.title}</b><br/>
-                  ${f.properties.description}<br/><br/>
-                  <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Wikipedia</a>
+                  <b>${feature.properties.title}</b><br/>
+                  ${feature.properties.description}<br/><br/>
+                  <a href="${wiki}" target="_blank">Random Wikipedia page</a>
                 `)
                 .openOn(map);
             }
           });
         }
       }).addTo(map);
+
+      map.fitBounds(currentLayer.getBounds());
     });
 }
 
 // date state
 let date = new Date("2026-04-20");
 
-// format
-function format(d) {
+// format helper
+function formatDate(d) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
 }
 
-// sync UI + map
-function sync() {
-  document.getElementById("yearDisplay").innerText = date.getFullYear();
-  document.getElementById("monthDisplay").innerText = String(date.getMonth() + 1).padStart(2,'0');
-  document.getElementById("dayDisplay").innerText = String(date.getDate()).padStart(2,'0');
+// UI refresh
+function refresh() {
+  document.getElementById("year").innerText = date.getFullYear();
+  document.getElementById("month").innerText = String(date.getMonth() + 1).padStart(2,'0');
+  document.getElementById("day").innerText = String(date.getDate()).padStart(2,'0');
 
-  load(format(date));
+  loadEvents(formatDate(date));
 }
 
-// controls
-document.getElementById("yearUp").onclick = () => { date.setFullYear(date.getFullYear() + 1); sync(); };
-document.getElementById("yearDown").onclick = () => { date.setFullYear(date.getFullYear() - 1); sync(); };
+// year
+document.getElementById("yearUp").onclick = () => { date.setFullYear(date.getFullYear() + 1); refresh(); };
+document.getElementById("yearDown").onclick = () => { date.setFullYear(date.getFullYear() - 1); refresh(); };
 
-document.getElementById("monthUp").onclick = () => { date.setMonth(date.getMonth() + 1); sync(); };
-document.getElementById("monthDown").onclick = () => { date.setMonth(date.getMonth() - 1); sync(); };
+// month
+document.getElementById("monthUp").onclick = () => { date.setMonth(date.getMonth() + 1); refresh(); };
+document.getElementById("monthDown").onclick = () => { date.setMonth(date.getMonth() - 1); refresh(); };
 
-document.getElementById("dayUp").onclick = () => { date.setDate(date.getDate() + 1); sync(); };
-document.getElementById("dayDown").onclick = () => { date.setDate(date.getDate() - 1); sync(); };
+// day
+document.getElementById("dayUp").onclick = () => { date.setDate(date.getDate() + 1); refresh(); };
+document.getElementById("dayDown").onclick = () => { date.setDate(date.getDate() - 1); refresh(); };
 
-document.getElementById("dayIncrement").onclick = () => { date.setDate(date.getDate() + 1); sync(); };
-document.getElementById("dayDecrement").onclick = () => { date.setDate(date.getDate() - 1); sync(); };
+// left/right day nav
+document.getElementById("leftDay").onclick = () => { date.setDate(date.getDate() - 1); refresh(); };
+document.getElementById("rightDay").onclick = () => { date.setDate(date.getDate() + 1); refresh(); };
 
 // init
-sync();
+refresh();
