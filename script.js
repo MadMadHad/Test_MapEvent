@@ -2,8 +2,6 @@
 const map = L.map('map', {
   center: [25, 0],
   zoom: 2,
-  minZoom: 2,
-  maxZoom: 10
 });
 
 // base map
