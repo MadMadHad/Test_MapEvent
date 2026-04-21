@@ -5,9 +5,9 @@
       "type": "Feature",
       "properties": {
         "date": "2026-04-20",
-        "category": "OIL",
-        "title": "Oil Spill",
-        "description": "Simulated oil spill event similar to 2010 Deepwater Horizon."
+        "category": "SFN",
+        "title": "Sargassum n/f",
+        "description": "Simulated Sargassum bloom."
       },
       "geometry": {
         "type": "Polygon",
