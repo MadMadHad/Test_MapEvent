@@ -4,21 +4,21 @@ const map = L.map('map', {
   zoom: 4
 });
 
-// base map
+// basemap
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; OpenStreetMap'
 }).addTo(map);
 
-// search bar
+// always visible search
 const geocoder = L.Control.geocoder();
 geocoder.addTo(map);
-const searchContainer = document.getElementById("search");
-searchContainer.appendChild(geocoder.getContainer()); // keeps input always visible
+
+document.getElementById("search").appendChild(geocoder.getContainer());
 
 // event layer
 let currentLayer;
 
-// style
+// styles
 function defaultStyle() {
   return {
     color: '#cc0000',
@@ -37,7 +37,7 @@ function hoverStyle() {
   };
 }
 
-// load events
+// load events (NO auto zoom)
 function loadEvents(dateStr) {
   if (currentLayer) {
     map.removeLayer(currentLayer);
@@ -60,20 +60,18 @@ function loadEvents(dateStr) {
                 .setContent(`
                   <b>${feature.properties.title}</b><br/>
                   ${feature.properties.description}<br/><br/>
-                  <a href="${wiki}" target="_blank">Random Wikipedia page</a>
+                  <a href="${wiki}" target="_blank">Wikipedia</a>
                 `)
                 .openOn(map);
             }
           });
         }
       }).addTo(map);
-      // Zoom to event automatically?
-      //map.fitBounds(currentLayer.getBounds());
     });
 }
 
 // date state
-let date = new Date("2026-04-20");
+let currentDate = new Date("2026-04-20");
 
 // format helper
 function formatDate(d) {
@@ -83,30 +81,27 @@ function formatDate(d) {
   return `${y}-${m}-${day}`;
 }
 
-// UI refresh
-function refresh() {
-  document.getElementById("year").innerText = date.getFullYear();
-  document.getElementById("month").innerText = String(date.getMonth() + 1).padStart(2,'0');
-  document.getElementById("day").innerText = String(date.getDate()).padStart(2,'0');
+// sync UI + map
+function sync() {
+  document.getElementById("yearDisplay").innerText = currentDate.getFullYear();
+  document.getElementById("monthDisplay").innerText = String(currentDate.getMonth() + 1).padStart(2,'0');
+  document.getElementById("dayDisplay").innerText = String(currentDate.getDate()).padStart(2,'0');
 
-  loadEvents(formatDate(date));
+  loadEvents(formatDate(currentDate));
 }
 
-// year
-document.getElementById("yearUp").onclick = () => { date.setFullYear(date.getFullYear() + 1); refresh(); };
-document.getElementById("yearDown").onclick = () => { date.setFullYear(date.getFullYear() - 1); refresh(); };
+// controls
+document.getElementById("yearUp").onclick = () => { currentDate.setFullYear(currentDate.getFullYear() + 1); sync(); };
+document.getElementById("yearDown").onclick = () => { currentDate.setFullYear(currentDate.getFullYear() - 1); sync(); };
 
-// month
-document.getElementById("monthUp").onclick = () => { date.setMonth(date.getMonth() + 1); refresh(); };
-document.getElementById("monthDown").onclick = () => { date.setMonth(date.getMonth() - 1); refresh(); };
+document.getElementById("monthUp").onclick = () => { currentDate.setMonth(currentDate.getMonth() + 1); sync(); };
+document.getElementById("monthDown").onclick = () => { currentDate.setMonth(currentDate.getMonth() - 1); sync(); };
 
-// day
-document.getElementById("dayUp").onclick = () => { date.setDate(date.getDate() + 1); refresh(); };
-document.getElementById("dayDown").onclick = () => { date.setDate(date.getDate() - 1); refresh(); };
+document.getElementById("dayUp").onclick = () => { currentDate.setDate(currentDate.getDate() + 1); sync(); };
+document.getElementById("dayDown").onclick = () => { currentDate.setDate(currentDate.getDate() - 1); sync(); };
 
-// left/right day nav
-document.getElementById("leftDay").onclick = () => { date.setDate(date.getDate() - 1); refresh(); };
-document.getElementById("rightDay").onclick = () => { date.setDate(date.getDate() + 1); refresh(); };
+document.getElementById("dayIncrement").onclick = () => { currentDate.setDate(currentDate.getDate() + 1); sync(); };
+document.getElementById("dayDecrement").onclick = () => { currentDate.setDate(currentDate.getDate() - 1); sync(); };
 
 // init
-refresh();
+sync();
