@@ -17,7 +17,7 @@ html, body {
   display: flex;
   gap: 0;
   z-index: 1000;
-  font-size: 20px; /* ← only touch this */
+  font-size: 20px;
 }
 .timeBox, .navRow {
   display: flex;
@@ -38,6 +38,7 @@ html, body {
 .spacer {
   flex: 1;
 }
+/* coordinate display */
 .coord-display {
   background: white;
   border: 1px solid #ccc;
