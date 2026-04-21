@@ -32,6 +32,22 @@ const categoryStyles = {
   }
 };
 
+// lat/lon display
+const coordDisplay = L.control({ position: 'bottomright' });
+coordDisplay.onAdd = function() {
+  this._div = L.DomUtil.create('div', 'coord-display');
+  this._div.innerHTML = 'Hover map';
+  return this._div;
+};
+coordDisplay.addTo(map);
+map.on('mousemove', function(e) {
+  coordDisplay._div.innerHTML =
+    `${e.latlng.lat.toFixed(3)}°, ${e.latlng.lng.toFixed(3)}°`;
+});
+map.on('mouseout', function() {
+  coordDisplay._div.innerHTML = 'Hover map';
+});
+
 function getStyle(feature, hover = false) {
   const s = categoryStyles[feature.properties.category] || categoryStyles.default;
   return {
