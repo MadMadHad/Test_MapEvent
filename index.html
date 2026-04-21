@@ -5,17 +5,43 @@
   <title>Test Map Event</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
 
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <div id="map"></div>
-  <input id="calendar" />
+
+  <!-- time UI -->
+  <div id="timePanel">
+    <div class="timeBox">
+      <button id="yearUp">▲</button>
+      <div id="year">2026</div>
+      <button id="yearDown">▼</button>
+    </div>
+
+    <div class="timeBox">
+      <button id="monthUp">▲</button>
+      <div id="month">04</div>
+      <button id="monthDown">▼</button>
+    </div>
+
+    <div class="timeBox">
+      <button id="dayUp">▲</button>
+      <div id="day">20</div>
+      <button id="dayDown">▼</button>
+    </div>
+
+    <div class="navRow">
+      <button id="leftDay">←</button>
+      <button id="rightDay">→</button>
+    </div>
+  </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
   <script src="script.js"></script>
 </body>
