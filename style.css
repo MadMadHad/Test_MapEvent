@@ -16,8 +16,9 @@ html, body {
   bottom: 20px;
   left: 20px;           /* bottom-left */
   display: flex;
-  gap: 8px;
+  gap: 0px;
   z-index: 1000;
+  font-size: 40px;
 }
 .timeBox {
   display: flex;
