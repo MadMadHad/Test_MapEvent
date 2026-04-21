@@ -1,6 +1,6 @@
 // map init
 const map = L.map('map', {
-  center: [25, 0],
+  center: [25, 120],
   zoom: 2,
 });
 
@@ -23,9 +23,6 @@ const categoryStyles = {
   OIL:    { color: '#111111', fillColor: '#888888' },
   UP:     { color: '#1b5e20', fillColor: '#a5d6a7' },
   TRICHO: { color: '#6a1b9a', fillColor: '#ce93d8' },
-  SH:     { color: '#546e7a', fillColor: '#cfd8dc' },
-  DIATO:  { color: '#1565c0', fillColor: '#90caf9' },
-  DINO:   { color: '#e65100', fillColor: '#ffcc80' },
   default:{ color: '#333333', fillColor: '#cccccc' }
 };
 
@@ -41,42 +38,6 @@ function getStyle(feature, hover = false) {
     fillOpacity: hover ? 0.6 : 0.4
   };
 }
-
-// legend with toggle
-const legend = L.control({ position: 'centerright' });
-legend.onAdd = function() {
-  const div = L.DomUtil.create('div', 'legend');
-  div.innerHTML = '<b>Categories</b>';
-
-  for (const key of Object.keys(categoryStyles).filter(k => k !== 'default')) {
-    const s = categoryStyles[key];
-    const item = document.createElement('div');
-    item.className = 'legend-item';
-    item.dataset.category = key;
-    item.innerHTML = `
-      <span class="legend-box" style="background:${s.fillColor};border:3px solid ${s.color};"></span>
-      ${key}
-    `;
-    item.addEventListener('click', function() {
-      if (activeCategories.has(key)) {
-        activeCategories.delete(key);
-        item.classList.add('legend-inactive');
-      } else {
-        activeCategories.add(key);
-        item.classList.remove('legend-inactive');
-      }
-      renderDay(cachedData, formatDate(date));
-    });
-    // stop map interactions from firing through the legend
-    L.DomEvent.disableClickPropagation(item);
-    div.appendChild(item);
-  }
-
-  L.DomEvent.disableClickPropagation(div);
-  L.DomEvent.disableScrollPropagation(div);
-  return div;
-};
-legend.addTo(map);
 
 // coordinate display
 const coordDisplay = L.control({ position: 'bottomright' });
@@ -180,10 +141,10 @@ function refresh() {
 }
 
 // prevent map interactions (click, dblclick, scroll) bleeding through the time panel
-const timePanel = document.getElementById('timePanel');
-L.DomEvent.disableClickPropagation(timePanel);
-L.DomEvent.disableScrollPropagation(timePanel);
-timePanel.addEventListener('dblclick', e => e.stopPropagation());
+///const timePanel = document.getElementById('timePanel');
+//L.DomEvent.disableClickPropagation(timePanel);
+//L.DomEvent.disableScrollPropagation(timePanel);
+//timePanel.addEventListener('dblclick', e => e.stopPropagation());
 
 document.getElementById("yearUp").onclick    = () => { date.setFullYear(date.getFullYear() + 1); refresh(); };
 document.getElementById("yearDown").onclick  = () => { date.setFullYear(date.getFullYear() - 1); refresh(); };
