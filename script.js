@@ -1,7 +1,7 @@
 // map init
 const map = L.map('map', {
-  center: [27.76, -82.63],
-  zoom: 3
+  center: [0, 0],
+  zoom: 1
 });
 
 // base map
