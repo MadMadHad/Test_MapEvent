@@ -10,7 +10,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png
 }).addTo(map);
 
 // search bar
-L.Control.geocoder().addTo(map);
+const geocoder = L.Control.geocoder();
+geocoder.addTo(map);
+const searchContainer = document.getElementById("search");
+searchContainer.appendChild(geocoder.getContainer()); // keeps input always visible
 
 // event layer
 let currentLayer;
