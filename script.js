@@ -64,8 +64,8 @@ function loadEvents(dateStr) {
           });
         }
       }).addTo(map);
-
-      map.fitBounds(currentLayer.getBounds());
+      // Zoom to event automatically?
+      //map.fitBounds(currentLayer.getBounds());
     });
 }
 
