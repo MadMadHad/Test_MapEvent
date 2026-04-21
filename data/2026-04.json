@@ -5,7 +5,7 @@
       "type": "Feature",
       "properties": {
         "date": "2026-04-20",
-        "category": "oil_spill",
+        "category": "OIL",
         "title": "Oil Spill",
         "description": "Simulated oil spill event similar to 2010 Deepwater Horizon."
       },
@@ -29,9 +29,9 @@
       "type": "Feature",
       "properties": {
         "date": "2026-04-18",
-        "category": "algae_bloom",
-        "title": "Algae Bloom",
-        "description": "Large algae bloom in the Yellow Sea, 300 km radius."
+        "category": "UP",
+        "title": "Ulva Prolifera",
+        "description": "Large Ulva prolifera bloom in the Yellow Sea, 300 km radius."
       },
       "geometry": {
         "type": "Polygon",
@@ -54,7 +54,7 @@
       "type": "Feature",
       "properties": {
         "date": "2026-04-19",
-        "category": "oil_spill",
+        "category": "OIL",
         "title": "Oil Spill",
         "description": "Major oil spill in the Arabian Sea, approximately 120 km radius."
       },
