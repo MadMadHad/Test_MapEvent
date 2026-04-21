@@ -1,28 +1,31 @@
-// init map
+// map init
 const map = L.map('map', {
-  center: [25, -90], // Gulf of Mexico
+  center: [25, -90],
   zoom: 4
 });
 
-// light basemap
+// base map
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; OpenStreetMap'
 }).addTo(map);
 
+// search bar
+L.Control.geocoder().addTo(map);
+
+// event layer
 let currentLayer;
 
-// style for events (light red fill, strong red border)
+// style
 function defaultStyle() {
   return {
-    color: '#cc0000',     // strong red border
+    color: '#cc0000',
     weight: 2,
-    fillColor: '#ff6666', // light red fill
+    fillColor: '#ff6666',
     fillOpacity: 0.4
   };
 }
 
-// highlight on hover
-function highlightStyle() {
+function hoverStyle() {
   return {
     color: '#ff0000',
     weight: 3,
@@ -31,31 +34,30 @@ function highlightStyle() {
   };
 }
 
-// load geojson
+// load events
 function loadEvents(dateStr) {
   if (currentLayer) {
     map.removeLayer(currentLayer);
   }
 
   fetch(`data/${dateStr}.json`)
-    .then(res => res.json())
+    .then(r => r.json())
     .then(data => {
       currentLayer = L.geoJSON(data, {
         style: defaultStyle,
         onEachFeature: (feature, layer) => {
           layer.on({
-            mouseover: e => {
-              e.target.setStyle(highlightStyle());
-            },
-            mouseout: e => {
-              currentLayer.resetStyle(e.target);
-            },
+            mouseover: e => e.target.setStyle(hoverStyle()),
+            mouseout: e => currentLayer.resetStyle(e.target),
             click: e => {
+              const wiki = "https://en.wikipedia.org/wiki/Special:Random";
+
               L.popup()
                 .setLatLng(e.latlng)
                 .setContent(`
                   <b>${feature.properties.title}</b><br/>
-                  ${feature.properties.description}
+                  ${feature.properties.description}<br/><br/>
+                  <a href="${wiki}" target="_blank">Random Wikipedia page</a>
                 `)
                 .openOn(map);
             }
@@ -63,18 +65,45 @@ function loadEvents(dateStr) {
         }
       }).addTo(map);
 
-      // zoom to event
       map.fitBounds(currentLayer.getBounds());
     });
 }
 
-// calendar
-flatpickr("#calendar", {
-  defaultDate: "2026-04-20",
-  onChange: (selectedDates, dateStr) => {
-    loadEvents(dateStr);
-  }
-});
+// date state
+let date = new Date("2026-04-20");
 
-// initial load
-loadEvents("2026-04-20");
+// format helper
+function formatDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+// UI refresh
+function refresh() {
+  document.getElementById("year").innerText = date.getFullYear();
+  document.getElementById("month").innerText = String(date.getMonth() + 1).padStart(2,'0');
+  document.getElementById("day").innerText = String(date.getDate()).padStart(2,'0');
+
+  loadEvents(formatDate(date));
+}
+
+// year
+document.getElementById("yearUp").onclick = () => { date.setFullYear(date.getFullYear() + 1); refresh(); };
+document.getElementById("yearDown").onclick = () => { date.setFullYear(date.getFullYear() - 1); refresh(); };
+
+// month
+document.getElementById("monthUp").onclick = () => { date.setMonth(date.getMonth() + 1); refresh(); };
+document.getElementById("monthDown").onclick = () => { date.setMonth(date.getMonth() - 1); refresh(); };
+
+// day
+document.getElementById("dayUp").onclick = () => { date.setDate(date.getDate() + 1); refresh(); };
+document.getElementById("dayDown").onclick = () => { date.setDate(date.getDate() - 1); refresh(); };
+
+// left/right day nav
+document.getElementById("leftDay").onclick = () => { date.setDate(date.getDate() - 1); refresh(); };
+document.getElementById("rightDay").onclick = () => { date.setDate(date.getDate() + 1); refresh(); };
+
+// init
+refresh();
